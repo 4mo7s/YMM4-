@@ -1,4 +1,3 @@
-[README.md](https://github.com/user-attachments/files/33327123/README.md)
 # YmmTextAlign — テキスト整列
 
 ゆっくりMovieMaker4（YMM4）で、選択したテキストをワンクリックで配置するプラグインです。
