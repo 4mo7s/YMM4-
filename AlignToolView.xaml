@@ -1,0 +1,96 @@
+<UserControl x:Class="YmmTextAlign.AlignToolView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    Background="#202020" Foreground="#EEEEEE" FontSize="12"
+    UseLayoutRounding="True" SnapsToDevicePixels="True">
+    <UserControl.Resources>
+        <Style x:Key="Placement" TargetType="Button">
+            <Setter Property="MinHeight" Value="46"/>
+            <Setter Property="Margin" Value="3"/>
+            <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border x:Name="Body" CornerRadius="8" BorderBrush="#666666" BorderThickness="1">
+                            <Border.Background><SolidColorBrush Color="#3E3E3E"/></Border.Background>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Trigger.EnterActions><BeginStoryboard><Storyboard>
+                                    <ColorAnimation Storyboard.TargetName="Body" Storyboard.TargetProperty="(Border.Background).(SolidColorBrush.Color)"
+                                        To="#153C9D" Duration="0:0:0.08"/>
+                                </Storyboard></BeginStoryboard></Trigger.EnterActions>
+                                <Trigger.ExitActions><BeginStoryboard><Storyboard>
+                                    <ColorAnimation Storyboard.TargetName="Body" Storyboard.TargetProperty="(Border.Background).(SolidColorBrush.Color)"
+                                        To="#3E3E3E" Duration="0:0:0.08"/>
+                                </Storyboard></BeginStoryboard></Trigger.ExitActions>
+                            </Trigger>
+                            <Trigger Property="IsKeyboardFocused" Value="True"><Setter TargetName="Body" Property="BorderBrush" Value="#DBE6FF"/></Trigger>
+                            <Trigger Property="IsEnabled" Value="False"><Setter TargetName="Body" Property="Opacity" Value="0.5"/></Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <Style x:Key="AxisButton" TargetType="Button">
+            <Setter Property="Margin" Value="2"/>
+            <Setter Property="MinHeight" Value="28"/>
+            <Setter Property="Foreground" Value="#EEEEEE"/>
+            <Setter Property="Background" Value="#3E3E3E"/>
+            <Setter Property="BorderBrush" Value="#666666"/>
+        </Style>
+        <Style TargetType="TextBox">
+            <Setter Property="Background" Value="#303030"/>
+            <Setter Property="Foreground" Value="#EEEEEE"/>
+            <Setter Property="BorderBrush" Value="#666666"/>
+            <Setter Property="Padding" Value="5,3"/>
+            <Setter Property="Margin" Value="3"/>
+        </Style>
+    </UserControl.Resources>
+    <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
+        <StackPanel Margin="5">
+            <UniformGrid x:Name="PlacementGrid" Rows="3" Columns="3">
+                <Button Style="{StaticResource Placement}" Tag="0,0" Click="Place" ToolTip="左上" AutomationProperties.Name="左上に配置"/>
+                <Button Style="{StaticResource Placement}" Tag="1,0" Click="Place" ToolTip="上中央" AutomationProperties.Name="上中央に配置"/>
+                <Button Style="{StaticResource Placement}" Tag="2,0" Click="Place" ToolTip="右上" AutomationProperties.Name="右上に配置"/>
+                <Button Style="{StaticResource Placement}" Tag="0,1" Click="Place" ToolTip="左中央" AutomationProperties.Name="左中央に配置"/>
+                <Button Style="{StaticResource Placement}" Tag="1,1" Click="Place" ToolTip="中央" AutomationProperties.Name="中央に配置"/>
+                <Button Style="{StaticResource Placement}" Tag="2,1" Click="Place" ToolTip="右中央" AutomationProperties.Name="右中央に配置"/>
+                <Button Style="{StaticResource Placement}" Tag="0,2" Click="Place" ToolTip="左下" AutomationProperties.Name="左下に配置"/>
+                <Button Style="{StaticResource Placement}" Tag="1,2" Click="Place" ToolTip="下中央" AutomationProperties.Name="下中央に配置"/>
+                <Button Style="{StaticResource Placement}" Tag="2,2" Click="Place" ToolTip="右下" AutomationProperties.Name="右下に配置"/>
+            </UniformGrid>
+            <Grid Margin="0,6,0,4">
+                <Grid.ColumnDefinitions><ColumnDefinition/><ColumnDefinition/></Grid.ColumnDefinitions>
+                <Grid.RowDefinitions><RowDefinition Height="Auto"/><RowDefinition Height="Auto"/></Grid.RowDefinitions>
+                <TextBlock Text="横余白 (px)" Margin="4,0"/>
+                <TextBlock Text="縦余白 (px)" Grid.Column="1" Margin="4,0"/>
+                <TextBox x:Name="HorizontalMarginBox" Grid.Row="1" Text="{Binding HorizontalMargin, Mode=OneWay}" AutomationProperties.Name="横余白"/>
+                <TextBox x:Name="VerticalMarginBox" Grid.Row="1" Grid.Column="1" Text="{Binding VerticalMargin, Mode=OneWay}" AutomationProperties.Name="縦余白"/>
+            </Grid>
+            <Expander Header="横・縦だけを整列" Foreground="#EEEEEE" Margin="3,2,3,5">
+                <StackPanel>
+                    <UniformGrid Rows="1" Columns="3">
+                        <Button Style="{StaticResource AxisButton}" Content="左" Tag="0,-" Click="Place" ToolTip="X軸だけ左に整列"/>
+                        <Button Style="{StaticResource AxisButton}" Content="横中央" Tag="1,-" Click="Place" ToolTip="X軸だけ中央に整列"/>
+                        <Button Style="{StaticResource AxisButton}" Content="右" Tag="2,-" Click="Place" ToolTip="X軸だけ右に整列"/>
+                    </UniformGrid>
+                    <UniformGrid Rows="1" Columns="3">
+                        <Button Style="{StaticResource AxisButton}" Content="上" Tag="-,0" Click="Place" ToolTip="Y軸だけ上に整列"/>
+                        <Button Style="{StaticResource AxisButton}" Content="縦中央" Tag="-,1" Click="Place" ToolTip="Y軸だけ中央に整列"/>
+                        <Button Style="{StaticResource AxisButton}" Content="下" Tag="-,2" Click="Place" ToolTip="Y軸だけ下に整列"/>
+                    </UniformGrid>
+                </StackPanel>
+            </Expander>
+            <CheckBox IsChecked="{Binding AnchorPointBasis, Mode=TwoWay}" Foreground="#EEEEEE" Margin="4,4"
+                ToolTip="OFF: 描画範囲で整列。ON: X/Yを基準に配置し、見切れるときは内側へ補正。基準点の設定自体は変更しません。">
+                <TextBlock Text="アンカーポイント基準" TextWrapping="Wrap"/>
+            </CheckBox>
+            <CheckBox IsChecked="{Binding ChangeTextAlignment, Mode=TwoWay}" Foreground="#EEEEEE" Margin="4,4"
+                ToolTip="ONのときだけ、横書きテキストの内部の左右揃えを変更します。縦方向の基準点は維持します。">
+                <TextBlock Text="テキストの左右揃えも変更" TextWrapping="Wrap"/>
+            </CheckBox>
+            <TextBlock Text="{Binding Status}" ToolTip="{Binding Status}" TextWrapping="Wrap" Foreground="#B9B9B9" Margin="4,7,4,4"/>
+        </StackPanel>
+    </ScrollViewer>
+</UserControl>
